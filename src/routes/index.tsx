@@ -1,5 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import Header from '@/components/Header'
+import NextSection from '@/components/NextSection'
+import LenisProvider from '@/components/lenis-provider'
 
 export const Route = createFileRoute('/')({
   component: App,
@@ -7,8 +9,11 @@ export const Route = createFileRoute('/')({
 
 function App() {
   return (
-    <main>
-      <Header />
-    </main>
+    <>
+      <LenisProvider>
+        <Header />
+        <NextSection />
+      </LenisProvider>
+    </>
   )
 }
