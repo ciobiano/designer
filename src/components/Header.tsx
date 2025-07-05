@@ -1,12 +1,12 @@
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/all'
+import { ScrollSmoother, ScrollTrigger } from 'gsap/all'
 import { useRef } from 'react'
 
 export default function HeroSection() {
   const containerRef = useRef(null)
 
-  gsap.registerPlugin(ScrollTrigger)
+  gsap.registerPlugin(ScrollTrigger, ScrollSmoother)
   // GSAP animation setup
   useGSAP(() => {
     const tl = gsap.timeline({
@@ -22,6 +22,7 @@ export default function HeroSection() {
         'img',
         { opacity: 0 },
         { opacity: 1, duration: 1, ease: 'power3.out' },
+        '-=0.3',
       )
       .fromTo(
         '#line-text',
@@ -45,11 +46,12 @@ export default function HeroSection() {
     const heroTl = gsap.timeline({
       scrollTrigger: {
         trigger: containerRef.current,
-        start: '1% top',
-        end: 'bottom top ',
+        start: 'clamp(1% center)',
+        end: 'bottom -80%',
         scrub: true,
         pin: true,
-        markers: true,
+        pinSpacing: false,
+        pinType: 'fixed',
       },
     })
     heroTl.fromTo(
@@ -57,16 +59,27 @@ export default function HeroSection() {
       { opacity: 0 },
       { opacity: 0.6, duration: 1, ease: 'power3.out' },
     )
+    heroTl.to(
+      containerRef.current,
+      {
+        yPercent: -80 ,
+        duration: 1,
      
-    
-  }, [])
+      },
+      '0',
+    )
+    return () => {
+      tl.kill()
+      heroTl.kill()
+    }
+  })
 
   return (
     <main
       ref={containerRef}
-      className="relative flex flex-col md:flex-row h-screen overflow-hidden"
+      className=" flex flex-col md:flex-row h-screen overflow-hidden"
     >
-      <div className="absolute inset-0 z-20  shade opacity-0 w-full h-full bg-[#141414] " />
+      <div className="absolute inset-0 z-10   shade opacity-0 w-full h-full bg-[#141414] " />
       {/* Left Panel */}
       <div className="w-1/2 flex flex-col-reverse basis-full mb-36 p-8  text-base">
         <p id="line-text" className=" max-w-xs leading-tight">
