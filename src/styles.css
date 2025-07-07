@@ -43,6 +43,18 @@ body {
 
   }
 
+     .hamburger-line {
+       width: 74px;
+       height: 2px;
+       background-color: #000;
+       margin: 4px 0;
+       transition: 0.3s;
+     }
+  
+     .hamburger:hover .hamburger-line {
+       background-color: #666;
+     }
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
